@@ -37,6 +37,8 @@ public:
 
     void prepend(T item);
 
+    void set(int index, T value);
+
     void insertAt(int index, T item);
 
     LinkedList<T> *concat(LinkedList<T> *list);
@@ -44,6 +46,8 @@ public:
     void print();
 
     T *getItems();
+
+    ~LinkedList() = default;
 };
 
 

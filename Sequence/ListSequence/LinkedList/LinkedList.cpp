@@ -232,3 +232,14 @@ T *LinkedList<T>::getItems() {
 
     return items;
 }
+
+template<typename T>
+void LinkedList<T>::set(int index, T value) {
+    if (index < this->getLength()) {
+        Element *temp = this->head;
+        for (int i = 0; i < index; i++) {
+            temp = temp->next;
+        }
+        temp->value = value;
+    }
+}

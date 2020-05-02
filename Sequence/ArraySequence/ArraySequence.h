@@ -39,7 +39,9 @@ public:
 
     virtual Sequence<T> *concat(Sequence<T> *list) override;
 
-    DynamicArray<T> *getArray();
+    virtual void set(int index, T value) override;
+
+    ~ArraySequence() = default;
 };
 
 

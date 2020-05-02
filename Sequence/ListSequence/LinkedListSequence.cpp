@@ -17,12 +17,11 @@ LinkedListSequence<T>::LinkedListSequence() {
 
 template<class T>
 LinkedListSequence<T>::LinkedListSequence(const LinkedListSequence<T> &linkedList) {
-    this->list = new LinkedList<T>(*linkedList.getList());
-}
-
-template<class T>
-LinkedList<T> *LinkedListSequence<T>::getList() {
-    return this->list;
+    T* temp = new T[linkedList.getLength()];
+    for (int i = 0; i < linkedList.getLength(); i++) {
+        temp[i] = linkedList.get(i);
+    }
+    list = new LinkedList<T>(temp, linkedList.getLength());
 }
 
 template<class T>
@@ -89,6 +88,11 @@ Sequence<T> *LinkedListSequence<T>::concat(Sequence<T> *sequence) {
 template<class T>
 void LinkedListSequence<T>::print() {
     this->list->print();
+}
+
+template<class T>
+void LinkedListSequence<T>::set(int index, T value) {
+    this->list->set(index, value);
 }
 
 

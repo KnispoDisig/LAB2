@@ -22,6 +22,8 @@ public:
 
     virtual void prepend(T value) = 0;
 
+    virtual void set(int index, T value) = 0;
+
     virtual void insertAt(const int index, T value) = 0;
 
     virtual Sequence<T> *concat(Sequence<T> *list) = 0;

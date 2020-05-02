@@ -33,13 +33,15 @@ public:
 
     void prepend(T value) override;
 
+    virtual void set(int index, T value) override;
+
     void insertAt(const int index, T value) override;
 
     Sequence<T> *concat(Sequence<T> *list) override;
 
     void print() override;
 
-    LinkedList<T> *getList();
+    ~LinkedListSequence() = default;
 };
 
 #endif //THEFIRSTAPP_LINKEDLISTSEQUENCE_H

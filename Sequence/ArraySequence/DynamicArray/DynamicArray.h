@@ -33,6 +33,8 @@ public:
     void resize(int newSize);
 
     void print();
+
+    ~DynamicArray() = default;
 };
 
 #endif //THEFIRSTAPP_DYNAMICARRAY_H

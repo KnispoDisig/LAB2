@@ -4,36 +4,42 @@
 
 #include "DiagonalMatrix.h"
 
-template<class T>
-DiagonalMatrix<T>::DiagonalMatrix(Sequence<T> **rows, int dimension, int diagonalCount) {
-    this->table = new ArraySequence<Sequence<T> *>(rows, dimension);
-    this->dim = dimension;
-    this->diagonalCount = diagonalCount;
-}
 
 template<class T>
-DiagonalMatrix<T>::DiagonalMatrix(const DiagonalMatrix<T> &matrix) {
-    Sequence<T> **rows = new ArraySequence<T> *[matrix.dim];
-    for (int i = 0; i < matrix.dim; i++) {
-        rows[i] = new ArraySequence<T>(*matrix.table->get(i));
+DiagonalMatrix<T>::DiagonalMatrix(Sequence<T> **rows, int dimension, int diagonalCount, bool array_or_list) {
+    if (diagonalCount % 2 == 0 || diagonalCount > 2 * dimension - 1 || dimension != rows[0]->getLength() || diagonalCount < 1) {
+        std::cout << "Matrix cannot be initialized\n";
+        throw std::exception();
     }
-    this->table = new ArraySequence<Sequence<T> *>(rows, matrix.dim);
+    this->dim = dimension;
+    this->diagonalCount = diagonalCount;
+
+    if (!array_or_list) {
+        this->table = new ArraySequence<Sequence<T> *>(rows, this->dim);
+    } else {
+        this->table = new LinkedListSequence<Sequence<T> *>(rows, this->dim);
+    }
+
+    for (int k = (this->diagonalCount + 1)/2; k < this->dim; k++) {
+        int i = k;
+        for (int j = 0; j < this->dim - k; j++) {
+            this->table->get(i)->set(j, 0);
+            this->table->get(j)->set(i, 0);
+            i++;
+        }
+    }
 }
 
 template<class T>
 void DiagonalMatrix<T>::print() {
-    std::cout << "\n";
     for (int i = 0; i < this->dim; i++) {
-        std::cout << "| ";
+        std::cout << "\n";
         this->table->get(i)->print();
-        std::cout << "|" << std::endl;
     }
 }
 
 template<class T>
-DiagonalMatrix<T> *DiagonalMatrix<T>::sum(DiagonalMatrix *matrix1, DiagonalMatrix *matrix2) {
-
+T DiagonalMatrix<T>::getItem(int i, int j) {
+    return this->table->get(i)->get(j);
 }
-
-
 

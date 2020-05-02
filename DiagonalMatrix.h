@@ -11,11 +11,11 @@
 template<class T>
 class DiagonalMatrix {
 private:
-    Sequence<Sequence<T>*> *table;
+    Sequence<Sequence<T> *> *table;
     int dim;
     int diagonalCount;
 public:
-    DiagonalMatrix(Sequence<T>** rows, int dimension, int diagonalCount);
+    DiagonalMatrix(Sequence<T> **rows, int dimension, int diagonalCount, bool array_or_list);
 
     DiagonalMatrix(const DiagonalMatrix<T> &matrix);
 
@@ -25,6 +25,9 @@ public:
 
     void print();
 
+    T getItem(int i, int j);
+
 };
+
 
 #endif //THEFIRSTAPP_DIAGONALMATRIX_H

@@ -17,7 +17,11 @@ ArraySequence<T>::ArraySequence() {
 
 template<class T>
 ArraySequence<T>::ArraySequence(const ArraySequence<T> &arraySequence) {
-    this->array = new DynamicArray<T>(*arraySequence.getArray());
+    T* temp = new T[arraySequence.getLength()];
+    for (int i = 0; i < arraySequence.getLength(); i++) {
+        temp[i] = arraySequence.get(i);
+    }
+    array = new DynamicArray<T>(temp, arraySequence.getLength());
 }
 
 template<class T>
@@ -96,8 +100,8 @@ void ArraySequence<T>::print() {
 }
 
 template<class T>
-DynamicArray<T> *ArraySequence<T>::getArray() {
-    return this->array;
+void ArraySequence<T>::set(int index, T value) {
+    this->array->set(index, value);
 }
 
 
