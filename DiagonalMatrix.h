@@ -12,20 +12,31 @@ template<class T>
 class DiagonalMatrix {
 private:
     Sequence<Sequence<T> *> *table;
-    int dim;
-    int diagonalCount;
+    int dim{};
+    int diagonalCount{};
+    bool array_or_list{};
 public:
     DiagonalMatrix(Sequence<T> **rows, int dimension, int diagonalCount, bool array_or_list);
 
     DiagonalMatrix(const DiagonalMatrix<T> &matrix);
 
-    DiagonalMatrix *sum(DiagonalMatrix *matrix1, DiagonalMatrix *matrix2);
+    DiagonalMatrix *sum(DiagonalMatrix *matrix2);
 
     DiagonalMatrix *skalarMultiply(DiagonalMatrix *matrix, double num);
+
+    double norm();
 
     void print();
 
     T getItem(int i, int j);
+
+    int getDim();
+
+    int getDiagonalCount();
+
+    std::string getImplementation();
+
+    ~DiagonalMatrix() = default;
 
 };
 

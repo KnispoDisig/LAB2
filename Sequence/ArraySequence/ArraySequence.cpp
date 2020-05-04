@@ -4,6 +4,7 @@
 
 #include "ArraySequence.h"
 #include "DynamicArray/DynamicArray.cpp"
+#include "../../Complex/Complex.h"
 
 template<class T>
 ArraySequence<T>::ArraySequence(T *items, int count) {
@@ -103,5 +104,14 @@ template<class T>
 void ArraySequence<T>::set(int index, T value) {
     this->array->set(index, value);
 }
+
+//template<class T>
+//void ArraySequence<T>::setNull(int index) {
+//    if (typeid(T).name()[1] == 'i' || typeid(T).name()[1] == 'd') {
+//        this->set(index, 0);
+//    } else {
+//        this->set(index, Complex(0, 0));
+//    }
+//}
 
 

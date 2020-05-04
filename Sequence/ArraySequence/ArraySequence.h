@@ -41,6 +41,8 @@ public:
 
     virtual void set(int index, T value) override;
 
+//    virtual void setNull(int index) override;
+
     ~ArraySequence() = default;
 };
 

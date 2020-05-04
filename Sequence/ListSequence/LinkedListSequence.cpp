@@ -4,6 +4,8 @@
 
 #include "LinkedListSequence.h"
 #include "LinkedList/LinkedList.cpp"
+#include "../../Complex/Complex.h"
+
 
 template<class T>
 LinkedListSequence<T>::LinkedListSequence(T *items, int count) {
@@ -94,5 +96,14 @@ template<class T>
 void LinkedListSequence<T>::set(int index, T value) {
     this->list->set(index, value);
 }
+
+//template<class T>
+//void LinkedListSequence<T>::setNull(int index) {
+//    if (typeid(T).name()[1] == 'i' || typeid(T).name()[1] == 'd') {
+//        this->set(index, 0);
+//    } else {
+//        this->set(index, Complex(0, 0));
+//    }
+//}
 
 
