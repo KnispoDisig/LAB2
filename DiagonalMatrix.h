@@ -36,7 +36,7 @@ public:
 
     std::string getImplementation();
 
-    ~DiagonalMatrix() = default;
+    ~DiagonalMatrix();
 
 };
 

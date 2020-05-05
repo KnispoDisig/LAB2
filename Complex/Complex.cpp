@@ -30,3 +30,14 @@ Complex Complex::operator/(Complex z) const {
 void Complex::print() const {
     std::cout << re << " + i*" << im << std::endl;
 }
+
+Complex::Complex() {
+    this->re = 0;
+    this->im = 0;
+}
+
+std::ostream &operator<<(std::ostream &out, Complex z) {
+    out << z.re << " + i * " << z.im;
+    return out;
+}
+

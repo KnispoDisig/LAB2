@@ -11,7 +11,9 @@ private:
     double re;
     double im;
 public:
-    Complex(double re, double im);
+    Complex(double re, double im = 0);
+
+    Complex();
 
     Complex operator+(Complex z) const;
 
@@ -20,6 +22,8 @@ public:
     Complex operator*(Complex z) const;
 
     Complex operator/(Complex z) const;
+
+    friend std::ostream& operator<<(std::ostream &out, Complex z);
 
     void print() const;
 

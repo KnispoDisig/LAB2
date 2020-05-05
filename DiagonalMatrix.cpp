@@ -26,8 +26,8 @@ DiagonalMatrix<T>::DiagonalMatrix(Sequence<T> **rows, int dimension, int diagona
     for (int k = (this->diagonalCount + 1) / 2; k < this->dim; k++) {
         int i = k;
         for (int j = 0; j < this->dim - k; j++) {
-            this->table->get(i)->set(j, 0);
-            this->table->get(j)->set(i, 0);
+            this->table->get(i)->set(j, {0});
+            this->table->get(j)->set(i, {0});
             i++;
         }
     }
@@ -87,7 +87,7 @@ double DiagonalMatrix<T>::norm() {
     double qSum = 0;
     for (int i = 0; i < this->dim; i++) {
         for (int j = 0; j < this->dim; j++) {
-            qSum += pow(this->getItem(i, j), 2);
+            qSum += this->getItem(i, j) * this->getItem(i, j);
         }
     }
     return sqrt(qSum);
@@ -129,3 +129,4 @@ DiagonalMatrix<T> *DiagonalMatrix<T>::sum(DiagonalMatrix *matrix) {
     }
     return matrixSum;
 }
+

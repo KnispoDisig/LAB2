@@ -104,6 +104,46 @@ DiagonalMatrix<double> *buildDoubleMatrix(int dim, int diagonalCount, bool array
     return matrix;
 }
 
+DiagonalMatrix<Complex> *buildComplexMatrix(int dim, int diagonalCount, bool array_or_list) {
+    std::string line;
+    double tempRe;
+    double tempIm;
+    std::cout << "Enter the matrix\nComplex number N + i * M is written like (N,M)\n";
+
+    Complex **array = new Complex*[dim];
+    for (int i = 0; i < dim; i++) {
+        array[i] = new Complex[dim];
+    }
+
+    for (int i = 0; i < dim; i++) {
+        std::getline(std::cin, line);
+        for (int j = 0; j < dim; j++) {
+            std::string elem = firstWord(line);
+            tempRe = std::stod(elem.substr(1, elem.find_first_of(",") - 1));
+            tempIm = std::stod(elem.substr(elem.find_first_of(",") + 1, elem.length() - elem.find_first_of(",") - 1));
+            array[i][j] = Complex(tempRe, tempIm);
+            removeFirstWord(&line);
+        }
+    }
+
+    DiagonalMatrix<Complex> *matrix = nullptr;
+    if (!array_or_list) {
+        ArraySequence<Complex> **rows = new ArraySequence<Complex>*[dim];
+        for (int i = 0; i < dim; i++) {
+            rows[i] = new ArraySequence<Complex>(array[i], dim);
+        }
+        matrix = new DiagonalMatrix<Complex>(reinterpret_cast<Sequence<struct Complex> **>(rows), dim, diagonalCount, array_or_list);
+    } else {
+        LinkedListSequence<Complex> **rows = new LinkedListSequence<Complex>*[dim];
+        for (int i = 0; i < dim; i++) {
+            rows[i] = new LinkedListSequence<Complex>(array[i], dim);
+        }
+        matrix = new DiagonalMatrix<Complex>(reinterpret_cast<Sequence<struct Complex> **>(rows), dim, diagonalCount, array_or_list);
+    }
+
+    return matrix;
+}
+
 int main() {
     DiagonalMatrix<int> *intMatrix = nullptr;
     DiagonalMatrix<double> *doubleMatrix = nullptr;
@@ -171,7 +211,10 @@ int main() {
                 complexMatrix = nullptr;
                 doubleMatrix->print();
             } else if (type == "complex") {
-                complexMatrix;
+                complexMatrix = buildComplexMatrix(dim, diagonalCount, array_or_list);
+                intMatrix = nullptr;
+                doubleMatrix = nullptr;
+                complexMatrix->print();
             }
             std::cout << "\n";
 
@@ -181,7 +224,7 @@ int main() {
             } else if (doubleMatrix != nullptr) {
                 doubleMatrix->print();
             } else if (complexMatrix != nullptr) {
-
+                complexMatrix->print();
             } else {
                 std::cout << "Matrix doesn't exist\n";
             }
@@ -193,7 +236,7 @@ int main() {
             } else if (doubleMatrix != nullptr) {
                 std::cout << "= " << doubleMatrix->norm() << "\n";
             } else if (complexMatrix != nullptr) {
-
+                std::cout << "What does it mean???\n";
             } else {
                 std::cout << "Matrix doesn't exist\n";
             }
@@ -218,8 +261,11 @@ int main() {
                 doubleMatrix->print();
             } else if (complexMatrix != nullptr) {
                 std::cout << complexMatrix->getDim() << "\n";
+                DiagonalMatrix<Complex> *temp = buildComplexMatrix(complexMatrix->getDim(), diagonalCount, 0);
+                complexMatrix = complexMatrix->sum(temp);
+                complexMatrix->print();
             }
-            
+
         } else if (firstWord(request) == "help") {
             showInfo();
 
@@ -233,6 +279,7 @@ int main() {
 |_.__/ \__, |\___|
         __/ |
        |___/      )";
+
         } else {
             std::cout << "UNKNOWN COMMAND\nSELF DESTRUCTION IN\n";
             for (int i = 3; i > 0; i--) {
@@ -254,6 +301,7 @@ int main() {
         )" << "\n";
         }
     }
+
 
     return 0;
 }
