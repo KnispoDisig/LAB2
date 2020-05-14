@@ -22,11 +22,15 @@ public:
 
     DiagonalMatrix *sum(DiagonalMatrix *matrix2);
 
-    DiagonalMatrix *skalarMultiply(DiagonalMatrix *matrix, double num);
+    DiagonalMatrix *skalarMultiply(T num);
 
     double norm();
 
     void print();
+
+    static DiagonalMatrix<T> *sumOfList(LinkedListSequence<DiagonalMatrix<T>*> *matrixList, int count);
+
+    DiagonalMatrix<T> *map(T(*func)(T elem));
 
     T getItem(int i, int j);
 
@@ -36,7 +40,7 @@ public:
 
     std::string getImplementation();
 
-    ~DiagonalMatrix();
+    ~DiagonalMatrix() = default;
 
 };
 

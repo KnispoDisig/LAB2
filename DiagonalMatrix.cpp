@@ -71,8 +71,8 @@ T DiagonalMatrix<T>::getItem(int i, int j) {
 }
 
 template<class T>
-DiagonalMatrix<T> *DiagonalMatrix<T>::skalarMultiply(DiagonalMatrix *matrix, double num) {
-    DiagonalMatrix<T> *newMatrix = new DiagonalMatrix<T>(*matrix);
+DiagonalMatrix<T> *DiagonalMatrix<T>::skalarMultiply(T num) {
+    DiagonalMatrix<T> *newMatrix = new DiagonalMatrix<T>(*this);
 
     for (int i = 0; i < newMatrix->dim; i++) {
         for (int j = 0; j < newMatrix->dim; j++) {
@@ -128,5 +128,30 @@ DiagonalMatrix<T> *DiagonalMatrix<T>::sum(DiagonalMatrix *matrix) {
         }
     }
     return matrixSum;
+}
+
+template<class T>
+DiagonalMatrix<T> *DiagonalMatrix<T>::sumOfList(LinkedListSequence<DiagonalMatrix<T> *> *matrixList, int count) {
+    DiagonalMatrix<T> *sumMatrix = new DiagonalMatrix<T>(*(matrixList->get(0)));
+
+    for (int i = 1; i < count; i++) {
+        sumMatrix = sumMatrix->sum(matrixList->get(i));
+    }
+
+    return sumMatrix;
+}
+
+template<class T>
+DiagonalMatrix<T> *DiagonalMatrix<T>::map(T (*func)(T)) {
+    DiagonalMatrix<T> *newMatrix = new DiagonalMatrix<T>(*this);
+
+    for (int i = 0; i < newMatrix->dim; i++) {
+        for (int j = 0; j < newMatrix->dim; j++) {
+            T newElem = func(newMatrix->getItem(i, j));
+            newMatrix->table->get(i)->set(j, newElem);
+        }
+    }
+
+    return newMatrix;
 }
 

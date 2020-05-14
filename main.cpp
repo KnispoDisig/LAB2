@@ -5,11 +5,26 @@
 
 void showInfo() {
     std::cout << "LIST OF COMMANDS:\n";
-    std::cout << "create (dimension) (diagonalCount) (implementation) (type)  -  creating diagonal matrix (implementation = list or array)";
+    std::cout
+            << "create (dimension) (diagonalCount) (implementation) (type)  -  creating diagonal matrix (implementation = list or array)";
     std::cout << "print  -  printing entering matrix\n";
     std::cout << "norm  -  calculating matrix's norm\n";
     std::cout << "add (diagonalCount)  -  entering new matrix to add it to main matrix\n";
+    std::cout << "scalar (real number)  -  scalar multiplication\n";
+    std::cout << "list (count) (dimension) (type) -  entering list of matrices and sum them\n";
+    std::cout << "map (operation)  -  operation == 'add3' or 'sqr'\n";
     std::cout << "exit  -  to finish the programm\n\n";
+}
+
+template<typename T>
+T sqr(T elem) {
+    return elem * elem;
+}
+
+template<typename T>
+T add3(T elem) {
+    T three = {3};
+    return elem + three;
 }
 
 std::string firstWord(std::string str) {
@@ -92,13 +107,15 @@ DiagonalMatrix<double> *buildDoubleMatrix(int dim, int diagonalCount, bool array
         for (int i = 0; i < dim; i++) {
             rows[i] = new ArraySequence<double>(array[i], dim);
         }
-        matrix = new DiagonalMatrix<double>(reinterpret_cast<Sequence<double> **>(rows), dim, diagonalCount, array_or_list);
+        matrix = new DiagonalMatrix<double>(reinterpret_cast<Sequence<double> **>(rows), dim, diagonalCount,
+                                            array_or_list);
     } else {
         LinkedListSequence<double> **rows = new LinkedListSequence<double> *[dim];
         for (int i = 0; i < dim; i++) {
             rows[i] = new LinkedListSequence<double>(array[i], dim);
         }
-        matrix = new DiagonalMatrix<double>(reinterpret_cast<Sequence<double> **>(rows), dim, diagonalCount, array_or_list);
+        matrix = new DiagonalMatrix<double>(reinterpret_cast<Sequence<double> **>(rows), dim, diagonalCount,
+                                            array_or_list);
     }
 
     return matrix;
@@ -110,7 +127,7 @@ DiagonalMatrix<Complex> *buildComplexMatrix(int dim, int diagonalCount, bool arr
     double tempIm;
     std::cout << "Enter the matrix\nComplex number N + i * M is written like (N,M)\n";
 
-    Complex **array = new Complex*[dim];
+    Complex **array = new Complex *[dim];
     for (int i = 0; i < dim; i++) {
         array[i] = new Complex[dim];
     }
@@ -128,17 +145,19 @@ DiagonalMatrix<Complex> *buildComplexMatrix(int dim, int diagonalCount, bool arr
 
     DiagonalMatrix<Complex> *matrix = nullptr;
     if (!array_or_list) {
-        ArraySequence<Complex> **rows = new ArraySequence<Complex>*[dim];
+        ArraySequence<Complex> **rows = new ArraySequence<Complex> *[dim];
         for (int i = 0; i < dim; i++) {
             rows[i] = new ArraySequence<Complex>(array[i], dim);
         }
-        matrix = new DiagonalMatrix<Complex>(reinterpret_cast<Sequence<struct Complex> **>(rows), dim, diagonalCount, array_or_list);
+        matrix = new DiagonalMatrix<Complex>(reinterpret_cast<Sequence<struct Complex> **>(rows), dim, diagonalCount,
+                                             array_or_list);
     } else {
-        LinkedListSequence<Complex> **rows = new LinkedListSequence<Complex>*[dim];
+        LinkedListSequence<Complex> **rows = new LinkedListSequence<Complex> *[dim];
         for (int i = 0; i < dim; i++) {
             rows[i] = new LinkedListSequence<Complex>(array[i], dim);
         }
-        matrix = new DiagonalMatrix<Complex>(reinterpret_cast<Sequence<struct Complex> **>(rows), dim, diagonalCount, array_or_list);
+        matrix = new DiagonalMatrix<Complex>(reinterpret_cast<Sequence<struct Complex> **>(rows), dim, diagonalCount,
+                                             array_or_list);
     }
 
     return matrix;
@@ -158,7 +177,8 @@ int main() {
  | |____ / ____ \| |_) | |_  __  _/ /_   | |__| | | (_| | (_| | (_) | | | | (_| | | | |  | | (_| | |_| |  | |>  <
  |______/_/    \_\____/    |_||_||____|  |_____/|_|\__,_|\__, |\___/|_| |_|\__,_|_| |_|  |_|\__,_|\__|_|  |_/_/\_\
                                                           __/ |
-                                                         |___/                                                    )" << "\n";
+                                                         |___/                                                    )"
+              << "\n";
     std::cout << "INFO: here you can create diagonal matrix with INT, DOUBLE or COMPLEX values and work with it\n";
     std::cout << "print 'help' for showing list of commands\n\n";
 
@@ -176,7 +196,7 @@ int main() {
             removeFirstWord(&request);
 
             int diagonalCount = std::stoi(firstWord(request));
-            if (diagonalCount % 2 == 0 || diagonalCount < 1 || diagonalCount > 2 * dim){
+            if (diagonalCount % 2 == 0 || diagonalCount < 1 || diagonalCount > 2 * dim) {
                 std::cout << "Wrong parameter\n";
                 throw std::exception();
             }
@@ -232,13 +252,13 @@ int main() {
 
         } else if (firstWord(request) == "norm") {
             if (intMatrix != nullptr) {
-                std::cout << "= " << intMatrix->norm() << "\n";
+                std::cout << "= " << intMatrix->norm() << "\n\n";
             } else if (doubleMatrix != nullptr) {
-                std::cout << "= " << doubleMatrix->norm() << "\n";
+                std::cout << "= " << doubleMatrix->norm() << "\n\n";
             } else if (complexMatrix != nullptr) {
-                std::cout << "What does it mean???\n";
+                std::cout << "What does it mean???\n\n";
             } else {
-                std::cout << "Matrix doesn't exist\n";
+                std::cout << "Matrix doesn't exist\n\n";
             }
 
         } else if (firstWord(request) == "add") {
@@ -268,6 +288,103 @@ int main() {
 
         } else if (firstWord(request) == "help") {
             showInfo();
+
+        } else if (firstWord(request) == "scalar") {
+            removeFirstWord(&request);
+            double lambda = std::stod(firstWord(request));
+            if (complexMatrix != nullptr) {
+                Complex cLambda = {lambda};
+                complexMatrix = complexMatrix->skalarMultiply(cLambda);
+            } else if (intMatrix != nullptr) {
+                intMatrix = intMatrix->skalarMultiply(lambda);
+            } else if (doubleMatrix != nullptr) {
+                doubleMatrix = doubleMatrix->skalarMultiply(lambda);
+            } else {
+                std::cout << "Matrix doesn't exist\n\n";
+            }
+
+        } else if (firstWord(request) == "list") {
+            removeFirstWord(&request);
+            int count = std::stoi(firstWord(request));
+            removeFirstWord(&request);
+            int dim = std::stoi(firstWord(request));
+            removeFirstWord(&request);
+            std::string type = firstWord(request);
+
+            std::string diagonalCount;
+            if (type == "int") {
+                DiagonalMatrix<int> **matrixArrI = new DiagonalMatrix<int> *[count];
+                for (int i = 0; i < count; i++) {
+                    std::cout << "Enter the " << i + 1 << " matrix!\n";
+                    std::cout << "Diagonal count = \n";
+                    std::getline(std::cin, diagonalCount);
+                    matrixArrI[i] = buildIntMatrix(dim, std::stoi(diagonalCount), 0);
+                }
+                LinkedListSequence<DiagonalMatrix<int> *> *list = new LinkedListSequence<DiagonalMatrix<int> *>(
+                        matrixArrI, count);
+                DiagonalMatrix<int> *summaryMatrix = DiagonalMatrix<int>::sumOfList(list, count);
+                summaryMatrix->print();
+            } else if (type == "double") {
+                DiagonalMatrix<double> **matrixArrD = new DiagonalMatrix<double> *[count];
+                for (int i = 0; i < count; i++) {
+                    std::cout << "Enter the " << i + 1 << " matrix!\n";
+                    std::cout << "Diagonal count = \n";
+                    std::getline(std::cin, diagonalCount);
+                    matrixArrD[i] = buildDoubleMatrix(dim, std::stoi(diagonalCount), 0);
+                }
+                LinkedListSequence<DiagonalMatrix<double> *> *list = new LinkedListSequence<DiagonalMatrix<double> *>(
+                        matrixArrD, count);
+                DiagonalMatrix<double> *summaryMatrix = DiagonalMatrix<double>::sumOfList(list, count);
+                summaryMatrix->print();
+            } else if (type == "complex") {
+                DiagonalMatrix<Complex> **matrixArrC = new DiagonalMatrix<Complex> *[count];
+                for (int i = 0; i < count; i++) {
+                    std::cout << "Enter the " << i + 1 << " matrix!\n";
+                    std::cout << "Diagonal count = \n";
+                    std::getline(std::cin, diagonalCount);
+                    matrixArrC[i] = buildComplexMatrix(dim, std::stoi(diagonalCount), 0);
+                }
+                LinkedListSequence<DiagonalMatrix<Complex> *> *list = new LinkedListSequence<DiagonalMatrix<Complex> *>(
+                        matrixArrC, count);
+                DiagonalMatrix<Complex> *summaryMatrix = DiagonalMatrix<Complex>::sumOfList(list, count);
+                summaryMatrix->print();
+            } else {
+                std::cout << "Such type is not found\n\n";
+                continue;
+            }
+
+        } else if (firstWord(request) == "map") {
+            removeFirstWord(&request);
+            std::string operation = firstWord(request);
+
+            if (operation == "add3") {
+                if (intMatrix != nullptr) {
+                    intMatrix = intMatrix->map(add3<int>);
+                } else if (doubleMatrix != nullptr) {
+                    doubleMatrix = doubleMatrix->map(add3<double>);
+                } else if (complexMatrix != nullptr) {
+                    complexMatrix = complexMatrix->map(add3<Complex>);
+                } else {
+                    std::cout << "Matrix doesn't exist\n";
+                    continue;
+                }
+
+            } else if (operation == "sqr") {
+                if (intMatrix != nullptr) {
+                    intMatrix = intMatrix->map(sqr<int>);
+                } else if (doubleMatrix != nullptr) {
+                    doubleMatrix = doubleMatrix->map(sqr<double>);
+                } else if (complexMatrix != nullptr) {
+                    complexMatrix = complexMatrix->map(sqr<Complex>);
+                } else {
+                    std::cout << "Matrix doesn't exist\n";
+                    continue;
+                }
+
+            } else {
+                std::cout << "We have no such operation!\n";
+                continue;
+            }
 
         } else if (firstWord(request) == "exit") {
             std::cout << R"(
@@ -299,6 +416,9 @@ int main() {
           | ;  :|
  _____.,-#%&$@%#&#~,._____
         )" << "\n";
+            Sleep(1000);
+            std::cout << "\n\n";
+            showInfo();
         }
     }
 
