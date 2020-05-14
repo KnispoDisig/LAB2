@@ -1,0 +1,3 @@
+C:/Users/fell2/CLionProjects/theFirstApp/cmake-build-debug/CMakeFiles/theFirstApp.dir
+C:/Users/fell2/CLionProjects/theFirstApp/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/fell2/CLionProjects/theFirstApp/cmake-build-debug/CMakeFiles/rebuild_cache.dir
