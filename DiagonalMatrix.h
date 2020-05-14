@@ -30,7 +30,14 @@ public:
 
     static DiagonalMatrix<T> *sumOfList(LinkedListSequence<DiagonalMatrix<T>*> *matrixList, int count);
 
-    DiagonalMatrix<T> *map(T(*func)(T elem));
+    void map(T* t) {
+        for (int i = 0; i < this->dim; i++) {
+            for (int j = 0; j < this->dim; j++) {
+                T newElem = t(this->getItem(i, j));
+                this->table->get(i)->set(j, newElem);
+            }
+        }
+    }
 
     T getItem(int i, int j);
 

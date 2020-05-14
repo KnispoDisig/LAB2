@@ -359,11 +359,11 @@ int main() {
 
             if (operation == "add3") {
                 if (intMatrix != nullptr) {
-                    intMatrix = intMatrix->map(add3<int>);
+                    intMatrix->map(add3<int>);
                 } else if (doubleMatrix != nullptr) {
-                    doubleMatrix = doubleMatrix->map(add3<double>);
+                    doubleMatrix->map(add3<double>);
                 } else if (complexMatrix != nullptr) {
-                    complexMatrix = complexMatrix->map(add3<Complex>);
+                    complexMatrix->map(add3<Complex>);
                 } else {
                     std::cout << "Matrix doesn't exist\n";
                     continue;
@@ -371,11 +371,14 @@ int main() {
 
             } else if (operation == "sqr") {
                 if (intMatrix != nullptr) {
-                    intMatrix = intMatrix->map(sqr<int>);
+                    intMatrix->map([](int &n)->int
+                    {
+                        return n;
+                    });
                 } else if (doubleMatrix != nullptr) {
-                    doubleMatrix = doubleMatrix->map(sqr<double>);
+                    doubleMatrix->map(sqr<double>);
                 } else if (complexMatrix != nullptr) {
-                    complexMatrix = complexMatrix->map(sqr<Complex>);
+                    complexMatrix->map([]());
                 } else {
                     std::cout << "Matrix doesn't exist\n";
                     continue;

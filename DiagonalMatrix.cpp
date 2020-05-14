@@ -141,17 +141,4 @@ DiagonalMatrix<T> *DiagonalMatrix<T>::sumOfList(LinkedListSequence<DiagonalMatri
     return sumMatrix;
 }
 
-template<class T>
-DiagonalMatrix<T> *DiagonalMatrix<T>::map(T (*func)(T)) {
-    DiagonalMatrix<T> *newMatrix = new DiagonalMatrix<T>(*this);
-
-    for (int i = 0; i < newMatrix->dim; i++) {
-        for (int j = 0; j < newMatrix->dim; j++) {
-            T newElem = func(newMatrix->getItem(i, j));
-            newMatrix->table->get(i)->set(j, newElem);
-        }
-    }
-
-    return newMatrix;
-}
 
